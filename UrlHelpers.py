@@ -1,0 +1,43 @@
+import requests, json
+from collections import OrderedDict
+from Crypto.Hash import SHA256
+import Order
+
+
+pbm_client_secret = 'ITu2ReCVCBrOC2xG7ATvGRRfGolg16zZKCsxSBzB'
+PBM_ID = 'pbm'
+MALL_ID= 'mall.my.com'
+MALL_WMS_URL= 'https://mallwms.com/api/pbm/v1'
+EVENTS=['PBM_EP_Order_Fulfill', 'PBM_EP_ Warehouse_Departure', 'PBM_EP_Post_Arrival', 'PBM_EP_Post_Departure', 'PBM_EP_Lastmile_Arrival', 'PBM_EP_Lastmile_Customs_Departure', 'PBM_EP_Lastmile_Post_Office_Arrival', 'PBM_EP_Lastmile_Success', 'PBM_EP_Lastmile_Return', 'PBM_EP_Claim']
+
+
+def calc_checksum(request_type, full_url, platform_id, json_data=None):
+    data_for_checksum = (full_url + request_type + platform_id + pbm_client_secret + json_data).encode('UTF-8')
+    return SHA256.new(data_for_checksum).hexdigest()
+
+def send_events_to_partner(tracking_number, order_id, timeout=60):
+    for event in EVENTS:
+        full_url = MALL_WMS_URL + '/tracking'
+        json_data = Order.create_event(event, tracking_number,order_id)
+        checksum = calc_checksum('POST', PBM_ID, json_data)
+        headers = {'Content-Type': 'application/json', 'platformID': PBM_ID, 'checksum': checksum,
+                   'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': event}
+        response = requests.post(full_url, headers=headers, data=json_data, timeout=timeout)
+        if response.status_code == 200:
+            print(event + 'with trackingNumber %s was sent successfully' % tracking_number)
+
+def send_order_to_wms(order):
+    order2 =order.replace(" ", "")
+
+    checksum = calc_checksum('POST', MALL_WMS_URL, MALL_ID, order2)
+    headers = {'Content-Type': 'application/json', 'platformID': MALL_ID, 'checksum': checksum,
+                   'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': 'EP_PBM_Order_Creation'}
+    print (order)
+    print(order2)
+    with open('test.txt', 'w') as f:
+        f.write(order+'\n')
+        f.write(order2)
+    response = requests.post(MALL_WMS_URL, data=order2, headers=headers)
+    return response
+
+
