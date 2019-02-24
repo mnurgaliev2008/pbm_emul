@@ -1,4 +1,18 @@
-import UrlHelpers, Order
+import UrlHelpers, Order, Database
+
+
+db = Database.Database()
+products = db.get_products(100)
+sending_orders = []
+processed_orders = []
+
+for product_id, sku_num in products:
+    order = Order.Order(product_id,sku_num)
+    order_data = order.data
+    response = UrlHelpers.send_order_to_wms(order_data)
+    data = response.json()
+    print(data)
+
 
 product_id='1711aac6-9474-4bba-b0ba-896ecd0ea719'
 prod2_id = 'dsadas'

@@ -8,8 +8,9 @@ app_pbm = Flask(__name__)
 executor = executor(max_workers=3)
 received_orders = []
 
-@app_pbm.route('/PBM_test1/hs/API/PBM_api_url', methods=['POST'])
+@app_pbm.route('/api/pbm/v1', methods=['POST'])
 def create_order():
+    print('Creating oder')
     data = request.get_json()
     order_id=request.get('order_id')
     tracking_number = 'tr%012d' % order_id
