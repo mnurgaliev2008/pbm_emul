@@ -26,7 +26,7 @@ class Order(object):
     num_order=1
 
     def __init__(self, product_id,sku):
-        self.data = json.dumps(OrderedDict([('orderId', str(Order.num_order)),('buyer', Buyer().buyer_data),('parcel',Parcel(product_id,sku).data),('bizType',2),('packing',0)])).replace(' ', '')
+        self.data = json.dumps(OrderedDict([('orderID', str(Order.num_order)),('buyer', Buyer().buyer_data),('parcel',Parcel(product_id,sku).data),('bizType',2),('packing',0)])).replace(' ', '')
         self.id = Order.num_order
         Order.num_order+=1
 
