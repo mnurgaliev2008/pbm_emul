@@ -19,4 +19,4 @@ def tracking():
         events_track['track_number'] = track_events
 
 if __name__ == '__main__':
-    app_mall.run(debug=True)
+    app_mall.run(debug=True,host='0.0.0.0', port=5001)
