@@ -7,8 +7,7 @@ import hashlib
 pbm_client_secret = 'ITu2ReCVCBrOC2xG7ATvGRRfGolg16zZKCsxSBzB'
 PBM_ID = 'pbm'
 MALL_ID= 'mall.my.com'
-#MALL_WMS_URL= 'http://176.99.7.62/api/pbm/v1'
-MALL_WMS_URL= 'http://127.0.0.1:5000/api/pbm/v1'
+MALL_WMS_URL= 'http://176.99.7.62/api/pbm/v1'
 EVENTS=['PBM_EP_Order_Fulfill', 'PBM_EP_ Warehouse_Departure', 'PBM_EP_Post_Arrival', 'PBM_EP_Post_Departure', 'PBM_EP_Lastmile_Arrival', 'PBM_EP_Lastmile_Customs_Departure', 'PBM_EP_Lastmile_Post_Office_Arrival', 'PBM_EP_Lastmile_Success', 'PBM_EP_Lastmile_Return', 'PBM_EP_Claim']
 
 
