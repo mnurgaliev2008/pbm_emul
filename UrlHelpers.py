@@ -31,6 +31,7 @@ def send_events_to_partner(tracking_number, order_id, timeout=60):
 
 def send_order_to_wms(order, url):
     if url is None:
+        print('Sending orders to WMS_URL: %s' % MALL_WMS_URL)
         checksum = calc_checksum('POST', MALL_WMS_URL, MALL_ID, order)
         headers = {'Content-Type': 'application/json', 'platformID': MALL_ID, 'checksum': checksum,
                        'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': 'EP_PBM_Order_Creation'}
