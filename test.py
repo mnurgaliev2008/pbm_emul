@@ -20,7 +20,8 @@ def send_orders(url=None):
             if json_data.get('trackingNumber', None) is not None:
                 processed_orders.append(json_data)
         except Exception as e:
-            print(data + '\n' + e)
+            print(data)
+            print(e)
 
     print('All orders sent: %s' % len(sending_orders))
     print('Number processed orders : %s' % len(processed_orders))
