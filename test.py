@@ -14,6 +14,7 @@ def send_orders(url=None):
         sending_orders.append(order)
         data = response.json()
         print(data)
+        print(type(data))
         if data.get('trackingNumber', None) is not None:
             processed_orders.append(data)
     print('All orders sent: %s' % len(sending_orders))
