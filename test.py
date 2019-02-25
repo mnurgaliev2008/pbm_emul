@@ -1,16 +1,16 @@
 import UrlHelpers, Order, Database, sys, json
 
 def send_orders(url=None):
-    #db = Database.Database()
-    #products = db.get_products(10)
+    db = Database.Database()
+    products = db.get_products(10)
     print('Getting products....')
     sending_orders = []
     processed_orders = []
-    products=(('1711aac6-9474-4bba-b0ba-896ecd0ea719','197738988' ),)
+    #products=(('1711aac6-9474-4bba-b0ba-896ecd0ea719','197738988' ),)
     for product_id, sku_num in products:
         order = Order.Order(product_id,sku_num)
         order_data = order.data
-        response = UrlHelpers.send_order_to_wms(order_data, 'http://127.0.0.1:5000')
+        response = UrlHelpers.send_order_to_wms(order_data, url)
         sending_orders.append(order)
         data = json.loads(response.json())
         print(type(data))
