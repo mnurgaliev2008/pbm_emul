@@ -1,4 +1,4 @@
-import UrlHelpers, Order, Database, sys
+import UrlHelpers, Order, Database, sys, json
 
 def send_orders(url=None):
     db = Database.Database()
@@ -12,9 +12,8 @@ def send_orders(url=None):
         order_data = order.data
         response = UrlHelpers.send_order_to_wms(order_data, url)
         sending_orders.append(order)
-        data = response.json()
+        data = json.loads(response.json())
         print(data)
-        print(type(data))
         if data.get('trackingNumber', None) is not None:
             processed_orders.append(data)
     print('All orders sent: %s' % len(sending_orders))
