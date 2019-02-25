@@ -12,7 +12,7 @@ received_orders = []
 def create_order():
     print('Creating oder')
     data = request.get_json()
-    order_id=request.get('order_id')
+    order_id=data.get('order_id')
     tracking_number = 'tr%012d' % order_id
     product_id = data.get('parcel').get('goodsList')[0].get('productId')
     sku_num = data.get('parcel').get('goodsList')[0].get('SKU')
