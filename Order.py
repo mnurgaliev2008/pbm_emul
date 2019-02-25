@@ -19,7 +19,7 @@ class Buyer(object):
 class Parcel(object):
 
     def __init__(self, product_id, sku):
-        self.data = OrderedDict([('goodsList',[OrderedDict([('productId', str(product_id)),('SKU', str(sku)),('quantity', 1),('price',100),('priceUnit', 'cent'),('priceCurrency', 'USD')])])])
+        self.data = OrderedDict([('goodsList',OrderedDict([('productId', str(product_id)),('SKU', str(sku)),('quantity', 1),('price',100),('priceUnit', 'cent'),('priceCurrency', 'USD')]))])
 
 
 class Order(object):
