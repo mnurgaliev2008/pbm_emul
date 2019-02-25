@@ -7,7 +7,8 @@ import hashlib
 pbm_client_secret = 'ITu2ReCVCBrOC2xG7ATvGRRfGolg16zZKCsxSBzB'
 PBM_ID = 'pbm'
 MALL_ID= 'mall.my.com'
-MALL_WMS_URL= 'http://176.99.7.62/api/pbm/v1'
+#MALL_WMS_URL= 'http://176.99.7.62/api/pbm/v1'
+MALL_WMS_URL= 'http://127.0.0.1:5000/api/pbm/v1'
 EVENTS=['PBM_EP_Order_Fulfill', 'PBM_EP_ Warehouse_Departure', 'PBM_EP_Post_Arrival', 'PBM_EP_Post_Departure', 'PBM_EP_Lastmile_Arrival', 'PBM_EP_Lastmile_Customs_Departure', 'PBM_EP_Lastmile_Post_Office_Arrival', 'PBM_EP_Lastmile_Success', 'PBM_EP_Lastmile_Return', 'PBM_EP_Claim']
 
 
@@ -28,14 +29,17 @@ def send_events_to_partner(tracking_number, order_id, timeout=60):
         if response.status_code == 200:
             print(event + 'with trackingNumber %s was sent successfully' % tracking_number)
 
-def send_order_to_wms(order):
-
-    checksum = calc_checksum('POST', MALL_WMS_URL, MALL_ID, order)
-    headers = {'Content-Type': 'application/json', 'platformID': MALL_ID, 'checksum': checksum,
-                   'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': 'EP_PBM_Order_Creation'}
-    with open('test.txt', 'w') as f:
-        f.write(order+'\n')
-    response = requests.post(MALL_WMS_URL, data=order, headers=headers)
-    return response
-
+def send_order_to_wms(order, url):
+    if url is None:
+        checksum = calc_checksum('POST', MALL_WMS_URL, MALL_ID, order)
+        headers = {'Content-Type': 'application/json', 'platformID': MALL_ID, 'checksum': checksum,
+                       'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': 'EP_PBM_Order_Creation'}
+        with open('test.txt', 'w') as f:
+            f.write(order+'\n')
+        response = requests.post(MALL_WMS_URL, data=order, headers=headers)
+        return response
+    else:
+        response = requests.post(url + '/api/pbm/v1', data=order, headers={'Content-Type': 'application/json', 'platformID': MALL_ID, 'checksum': 'checksum',
+                       'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': 'EP_PBM_Order_Creation'})
+        return response
 
