@@ -20,9 +20,8 @@ def send_orders(url=None):
             sending_orders.append(order)
 
         try:
-            json_data = json.loads(data)
-            if json_data.get('trackingNumber', None) is not None:
-                processed_orders.append(json_data)
+            if data.get('trackingNumber', None) is not None:
+                processed_orders.append(data)
         except Exception as e:
             print(data)
             print(e)
