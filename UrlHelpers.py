@@ -20,8 +20,8 @@ def calc_checksum(request_type, full_url, platform_id, json_data=None):
 def send_events_to_partner(tracking_number, order_id, timeout=60):
     for event in EVENTS:
         full_url = MALL_WMS_URL + '/tracking'
-        json_data = Order.create_event(event, tracking_number,order_id)
-        checksum = calc_checksum('POST', PBM_ID, json_data)
+        json_data = Order.Order.create_event(event, tracking_number,order_id).replace(' ', '')
+        checksum = calc_checksum('POST', full_url, PBM_ID, json_data)
         headers = {'Content-Type': 'application/json', 'platformID': PBM_ID, 'checksum': checksum,
                    'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': event}
         response = requests.post(full_url, headers=headers, data=json_data, timeout=timeout)
@@ -43,3 +43,6 @@ def send_order_to_wms(order, url):
                        'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': 'EP_PBM_Order_Creation'})
         return response
 
+
+if __name__=='__main__':
+    send_events_to_partner('tr00001', 1)
