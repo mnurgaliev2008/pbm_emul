@@ -30,7 +30,9 @@ def create_order():
     order = {'order_id': order_id, 'tracking_number': tracking_number, 'product_id': product_id, 'sku_num': sku_num}
     received_orders.append(order)
     #executor.submit(UrlHelpers.send_events_to_partner, tracking_number, order_id)
-    ans = jsonify(Order.Order.answer_on_create_order(tracking_number))
+    json_ans_order = Order.Order.answer_on_create_order(tracking_number)
+    print('Answering data: ' + json_ans_order)
+    ans = jsonify(json_ans_order)
     return ans
 
 
