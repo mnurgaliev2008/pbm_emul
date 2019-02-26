@@ -12,16 +12,15 @@ def send_orders(url=None):
         order_data = order.data
         response = UrlHelpers.send_order_to_wms(order_data, url)
         print('response.text:' +response.text)
-        print(type(response))
-        print('statuc_code: ' + response.status_code)
+        print('status_code: ' + response.status_code)
         if response.status_code == 200:
-            print(response.json())
+            data = response.json()
+            print(data)
+            print(type(data))
+            sending_orders.append(order)
 
-        sending_orders.append(order)
-        data = response.json()
         try:
             json_data = json.loads(data)
-            print(data)
             if json_data.get('trackingNumber', None) is not None:
                 processed_orders.append(json_data)
         except Exception as e:

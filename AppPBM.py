@@ -34,7 +34,7 @@ def create_order():
     print('Answering data: ' + json_ans_order)
     ans = jsonify(json_ans_order)
     print(type(ans))
-    return json_ans_order
+    return
 
 
 if __name__ == '__main__':

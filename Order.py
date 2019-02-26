@@ -35,7 +35,7 @@ class Order(object):
 
     @staticmethod
     def answer_on_create_order(track_num):
-        return json.dumps(OrderedDict([('trackingNumber', track_num), ('trackingDescription', 'Order creation'), ('opTime', str(datetime.datetime.now().replace(microsecond=0))),('timeZone', '+03:00'), ('tariff', 150), ('tariffUnit','cent'),('tariffCurrency', 'USD')]))
+        return OrderedDict([('trackingNumber', track_num), ('trackingDescription', 'Order creation'), ('opTime', str(datetime.datetime.now().replace(microsecond=0))),('timeZone', '+03:00'), ('tariff', 150), ('tariffUnit','cent'),('tariffCurrency', 'USD')])
 
     @staticmethod
     def create_event(event, tracking_number,order_id):
