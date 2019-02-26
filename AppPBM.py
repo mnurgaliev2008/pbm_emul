@@ -33,6 +33,7 @@ def create_order():
     json_ans_order = Order.Order.answer_on_create_order(tracking_number)
     print('Answering data: ' + json_ans_order)
     ans = jsonify(json_ans_order)
+    print(type(ans))
     return ans
 
 
