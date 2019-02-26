@@ -18,7 +18,7 @@ def catch_all(path):
 
 
 
-@app_pbm.route('/api/pbm/v1', methods=['POST'])
+@app_pbm.route('/v1', methods=['POST'])
 def create_order():
     print('Creating oder')
 

@@ -11,10 +11,11 @@ def send_orders(url=None):
         order = Order.Order(product_id,sku_num)
         order_data = order.data
         response = UrlHelpers.send_order_to_wms(order_data, url)
-        print(response)
+        print('response.content:' +response.content)
+        print('response.text:' +response.text)
+        print('data=response.json:' +response.json)
         sending_orders.append(order)
         data = response.json()
-        print(type(data))
         try:
             json_data = json.loads(data)
             print(data)
