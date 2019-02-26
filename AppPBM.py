@@ -8,10 +8,18 @@ app_pbm = Flask(__name__)
 executor = executor(max_workers=3)
 received_orders = []
 
+@app_pbm.route('/v1', methods=['POST'])
+def default_handler():
+    print('WARNING: Unkhnown URL')
+
+
+
 @app_pbm.route('/api/pbm/v1', methods=['POST'])
 def create_order():
     print('Creating oder')
+
     data = request.get_json(silent=True)
+    print('Receiving data: %s' % data)
     order_id=data.get('orderID')
     tracking_number = 'tr%s' % order_id.rjust(15, '0')
     product_id = data.get('parcel').get('goodsList').get('productId')
