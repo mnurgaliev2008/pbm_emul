@@ -12,7 +12,7 @@ def send_orders(url=None):
         order_data = order.data
         response = UrlHelpers.send_order_to_wms(order_data, url)
         print('response.text:' +response.text)
-        print('status_code: ' + response.status_code)
+        print('status_code: ' + str(response.status_code))
         if response.status_code == 200:
             data = response.json()
             print(data)

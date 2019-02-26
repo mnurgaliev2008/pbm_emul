@@ -2,7 +2,7 @@
 import sys
 from flask import Flask,jsonify, request
 from concurrent.futures import ThreadPoolExecutor as executor
-import Order, UrlHelpers
+import Order, UrlHelpers, json
 
 app_pbm = Flask(__name__)
 executor = executor(max_workers=3)
@@ -30,11 +30,14 @@ def create_order():
     order = {'order_id': order_id, 'tracking_number': tracking_number, 'product_id': product_id, 'sku_num': sku_num}
     received_orders.append(order)
     #executor.submit(UrlHelpers.send_events_to_partner, tracking_number, order_id)
-    json_ans_order = Order.Order.answer_on_create_order(tracking_number)
-    print('Type answering data: ' + str(type(json_ans_order)))
-    ans = jsonify(json_ans_order)
+    dict_ans_order = Order.Order.answer_on_create_order(tracking_number)
+    print('Type answering data: ' + str(type(dict_ans_order)))
+    ans_data = json.dumps(dict_ans_order)
+    print(type(ans_data))
+    print(data)
+    ans = jsonify(data)
     print(type(ans))
-    return
+    return ans
 
 
 if __name__ == '__main__':
