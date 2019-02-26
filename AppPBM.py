@@ -8,7 +8,6 @@ app_pbm = Flask(__name__)
 executor = executor(max_workers=3)
 received_orders = []
 
-@app_pbm.route('/', defaults={'u_path': ''})
 @app_pbm.route('/<path:u_path>')
 def catch_all(u_path):
     print(repr(u_path))
