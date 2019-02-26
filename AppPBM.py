@@ -36,7 +36,7 @@ def create_order():
     print(type(ans_data))
     print(ans_data)
     ans = jsonify(ans_data)
-    print(ans.json())
+    print(type(ans))
     return ans
 
 
