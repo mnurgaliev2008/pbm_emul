@@ -9,7 +9,7 @@ executor = executor(max_workers=3)
 received_orders = []
 
 #@app_pbm.route('/', defaults={'path': ''})
-@app_pbm.route('/<path>')
+@app_pbm.route('/<path>', methods=['POST'])
 def catch_all(path):
     print('tut')
     print( request.url)
