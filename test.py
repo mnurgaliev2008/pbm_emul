@@ -12,8 +12,8 @@ def send_orders(url=None):
         order_data = order.data
         response = UrlHelpers.send_order_to_wms(order_data, url)
         print('response.text:' +response.text)
-        print('type' + type(response))
-        print('response.json:' +response.json())
+        print(type(response))
+        print(response.json())
         sending_orders.append(order)
         data = response.json()
         try:
