@@ -32,12 +32,7 @@ def create_order():
     #executor.submit(UrlHelpers.send_events_to_partner, tracking_number, order_id)
     dict_ans_order = Order.Order.answer_on_create_order(tracking_number)
     print('Type answering data: ' + str(type(dict_ans_order)))
-    ans_data = json.dumps(dict_ans_order)
-    print(type(ans_data))
-    print(ans_data)
-    ans = jsonify(ans_data)
-    print(type(ans))
-    print(ans.json())
+    ans = jsonify(dict_ans_order)
     return ans
 
 
