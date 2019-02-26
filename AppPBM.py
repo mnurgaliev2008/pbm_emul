@@ -8,7 +8,7 @@ app_pbm = Flask(__name__)
 executor = executor(max_workers=3)
 received_orders = []
 
-@app_pbm.route('/v1', methods=['POST'])
+@app_pbm.route('/', methods=['POST'])
 def default_handler():
     print('WARNING: Unkhnown URL')
     print(request.headers)
