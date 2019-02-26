@@ -8,7 +8,7 @@ class Buyer(object):
     number=1
 
     def __init__(self):
-        self.buyer_data=OrderedDict([('img','buyer_img'),('name', 'name_buyer_%s' % Buyer.number),('phone','123456789'),('email','buyer_%s@mail.com' % Buyer.number),('zipCode',187553),('address',self.generate_address())])
+        self.buyer_data=OrderedDict([('imId','buyer_imId'),('name', 'name_buyer_%s' % Buyer.number),('phone','123456789'),('email','buyer_%s@mail.com' % Buyer.number),('zipCode',187553),('address',self.generate_address())])
         Buyer.number+=1
 
 
