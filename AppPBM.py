@@ -35,8 +35,7 @@ def create_order():
     ans_data = json.dumps(dict_ans_order)
     print(type(ans_data))
     print(ans_data)
-    ans = jsonify(data)
-    print(type(ans))
+    ans = jsonify(ans_data)
     return ans
 
 
