@@ -10,6 +10,7 @@ received_orders = []
 
 @app_pbm.route('/<path:path>')
 def catch_all(path):
+    print('tut')
     print( request.url)
     print(repr(path))
     return path
