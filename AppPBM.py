@@ -11,6 +11,9 @@ received_orders = []
 @app_pbm.route('/v1', methods=['POST'])
 def default_handler():
     print('WARNING: Unkhnown URL')
+    print(request.headers)
+    print('recieved URL:'+request.url)
+    return ''
 
 
 
