@@ -31,7 +31,7 @@ def create_order():
     received_orders.append(order)
     #executor.submit(UrlHelpers.send_events_to_partner, tracking_number, order_id)
     json_ans_order = Order.Order.answer_on_create_order(tracking_number)
-    print('Answering data: ' + json_ans_order)
+    print('Type answering data: ' + str(type(json_ans_order)))
     ans = jsonify(json_ans_order)
     print(type(ans))
     return
