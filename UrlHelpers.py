@@ -55,7 +55,7 @@ def send_cancel_order(order_id):
 def send_stock():
     time.sleep(60)
     db = Database.Database()
-    variants = db.get_variants()
+    variants = db.get_variants(51)
     print('Number variants to sent = %s' % len(variants))
 
     #variants = [i for i in range(140)]
@@ -70,7 +70,7 @@ def send_stock():
         else:
             variants_for_send = variants
             variants = []
-            number+=len(variants)
+            number+=len(variants_for_send)
         for var in variants_for_send:
             dict_var = {'variantId': str(var), 'quantity': 100}
             good_list.append(dict_var)
