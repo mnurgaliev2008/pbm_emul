@@ -14,7 +14,7 @@ EVENTS=['PBM_EP_Order_Fulfilled', 'PBM_EP_Warehouse_Departure', 'PBM_EP_Post_Arr
 
 def calc_checksum(request_type, full_url, platform_id, json_data=None):
     data_for_checksum = full_url + request_type + platform_id + pbm_client_secret + json_data
-    print(data_for_checksum'\n')
+    print(data_for_checksum+'\n')
     encoded_data = data_for_checksum.encode('utf-8')
     hash = hashlib.new('SHA256',encoded_data).hexdigest()
     print(hash)
