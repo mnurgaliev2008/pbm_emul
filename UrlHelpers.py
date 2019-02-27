@@ -56,6 +56,7 @@ def send_stock():
     time.sleep(60)
     db = Database.Database()
     variants = db.get_variants()
+    print('Number variants to sent = %s' % len(variants))
 
     #variants = [i for i in range(140)]
     #variants = ['00010ad2-79e8-4687-abc8-e4bad160c273']
