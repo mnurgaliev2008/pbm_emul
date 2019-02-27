@@ -34,7 +34,7 @@ def process_order():
         dict_ans_order = Order.Order.answer_on_create_order(tracking_number)
         print('Type answering data: ' + str(type(dict_ans_order)))
         ans = jsonify(dict_ans_order)
-    elif msg_type == 'EP_PBM_Order_Creation':
+    elif msg_type == 'EP_PBM_Order_Cancel':
         ans = jsonify({'orderID': order_id, 'trackingDescription': 'Order canсeled'})
     return ans
 
