@@ -18,21 +18,24 @@ def catch_all(path):
 
 
 @app_pbm.route('/v1', methods=['POST'])
-def create_order():
-    print('Creating oder')
-
+def process_order():
     data = request.get_json(silent=True)
     print('Receiving data: %s' % data)
-    order_id=data.get('orderID')
-    tracking_number = 'tr%s' % order_id.rjust(15, '0')
-    product_id = data.get('parcel').get('goodsList').get('productId')
-    sku_num = data.get('parcel').get('goodsList').get('SKU')
-    order = {'order_id': order_id, 'tracking_number': tracking_number, 'product_id': product_id, 'sku_num': sku_num}
-    received_orders.append(order)
-    executor.submit(UrlHelpers.send_events_to_partner, tracking_number, order_id)
-    dict_ans_order = Order.Order.answer_on_create_order(tracking_number)
-    print('Type answering data: ' + str(type(dict_ans_order)))
-    ans = jsonify(dict_ans_order)
+    order_id = data.get('orderID')
+    msg_type = request.headers.get('msgType')
+    if msg_type == 'EP_PBM_Order_Creation':
+        print('Creating oder')
+        tracking_number = 'tr%s' % order_id.rjust(15, '0')
+        product_id = data.get('parcel').get('goodsList').get('productId')
+        sku_num = data.get('parcel').get('goodsList').get('SKU')
+        order = {'order_id': order_id, 'tracking_number': tracking_number, 'product_id': product_id, 'sku_num': sku_num}
+        received_orders.append(order)
+        executor.submit(UrlHelpers.send_events_to_partner, tracking_number, order_id)
+        dict_ans_order = Order.Order.answer_on_create_order(tracking_number)
+        print('Type answering data: ' + str(type(dict_ans_order)))
+        ans = jsonify(dict_ans_order)
+    elif msg_type == 'EP_PBM_Order_Creation':
+        ans = jsonify({'orderID': order_id, 'trackingDescription': 'Order canсeled'})
     return ans
 
 
