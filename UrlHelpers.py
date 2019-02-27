@@ -55,7 +55,7 @@ def send_cancel_order(order_id):
 def send_stock():
     time.sleep(60)
     db = Database.Database()
-    variants = db.get_variants(51)
+    variants = db.get_variants(9999)
     print('Number variants to sent = %s' % len(variants))
 
     #variants = [i for i in range(140)]
