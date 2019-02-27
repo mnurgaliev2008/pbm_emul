@@ -40,7 +40,7 @@ class Order(object):
     @staticmethod
     def create_event(event, tracking_number,order_id):
         event_info = {'trackingNumber' : tracking_number, 'trackingDescription' : '_'.join(event.split('_')[2:]), 'opTime': str(datetime.datetime.now().replace(microsecond=0)), 'timeZone': '+03:00', 'opLocation':'Riga'}
-        if event == 'PBM_EP_Order_Fulfill':
+        if event == 'PBM_EP_Order_Fulfilled':
             external_filds = {'orderId': order_id, 'updateTariff': 155, 'updateTariffUnit':'cent', 'updateTariffCurrency': 'USD', 'updateWeight': 25, 'updateWeightUnit': 'g'}
             event_info.update(external_filds)
         return json.dumps(event_info)

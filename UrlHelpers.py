@@ -7,8 +7,9 @@ import hashlib
 pbm_client_secret = 'ITu2ReCVCBrOC2xG7ATvGRRfGolg16zZKCsxSBzB'
 PBM_ID = 'pbm'
 MALL_ID= 'mall.my.com'
-MALL_WMS_URL= 'http://176.99.7.62/api/pbm/v1'
-EVENTS=['PBM_EP_Order_Fulfill', 'PBM_EP_ Warehouse_Departure', 'PBM_EP_Post_Arrival', 'PBM_EP_Post_Departure', 'PBM_EP_Lastmile_Arrival', 'PBM_EP_Lastmile_Customs_Departure', 'PBM_EP_Lastmile_Post_Office_Arrival', 'PBM_EP_Lastmile_Success', 'PBM_EP_Lastmile_Return', 'PBM_EP_Claim']
+#MALL_WMS_URL= 'http://176.99.7.62/api/pbm/v1'
+MALL_WMS_URL= 'http://127.0.0.1:5001/api/pbm/v1'
+EVENTS=['PBM_EP_Order_Fulfilled', 'PBM_EP_Warehouse_Departure', 'PBM_EP_Post_Arrival', 'PBM_EP_Post_Departure', 'PBM_EP_Lastmile_Arrival', 'PBM_EP_Lastmile_Customs_Departure', 'PBM_EP_Lastmile_Post_Office_Arrival', 'PBM_EP_Lastmile_Success', 'PBM_EP_Lastmile_Return', 'PBM_EP_Claim']
 
 
 def calc_checksum(request_type, full_url, platform_id, json_data=None):
@@ -22,7 +23,7 @@ def send_events_to_partner(tracking_number, order_id, timeout=60):
         full_url = MALL_WMS_URL + '/tracking'
         json_data = Order.Order.create_event(event, tracking_number,order_id).replace(' ', '')
         checksum = calc_checksum('POST', full_url, PBM_ID, json_data)
-        headers = {'Content-Type': 'application/json', 'platformID': PBM_ID, 'checksum': checksum,
+        headers = {'Content-Type': 'application/json', 'pbmId': PBM_ID, 'checksum': checksum,
                    'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': event}
         response = requests.post(full_url, headers=headers, data=json_data, timeout=timeout)
         if response.status_code == 200:
