@@ -47,7 +47,7 @@ def send_order_to_wms(order, url):
 
 def send_cancel_order(order_id):
     print('Sending cancel order for id = %s' % order_id)
-    order_data = json.dumps({'orderID': order_id})
+    order_data = json.dumps({'orderID': str(order_id)})
     cs = calc_checksum('POST', MALL_WMS_URL, MALL_ID, json.dumps(order_data))
     headers = {'Content-Type': 'application/json', 'platformID': MALL_ID, 'checksum': cs,
                'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': 'EP_PBM_Order_Cancel'}
@@ -56,4 +56,5 @@ def send_cancel_order(order_id):
 
 
 if __name__=='__main__':
+    send_cancel_order(1)
     send_events_to_partner('tr00001', 1)

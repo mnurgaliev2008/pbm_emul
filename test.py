@@ -29,6 +29,8 @@ def send_cancel_order(order_id):
     response = UrlHelpers.send_cancel_order(order_id)
     if response.status_code == 200 and response.json().get('trackingDescription') == 'Order canceled':
         print('Order %s canceled' % order_id)
+    else:
+        print(response.status_code + response.text)
 
 
 
