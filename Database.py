@@ -21,3 +21,17 @@ class Database(object):
         self.cur.execute('SELECT product_id, sku_num FROM sku LIMIT %s' % count)
         products=self.cur.fetchall()
         return products
+
+    def get_variants(self,count=None):
+        if count is None:
+            self.cur.execute('SELECT id FROM sku')
+        else:
+            self.cur.execute('SELECT id FROM sku LIMIT %s' % count)
+        products = self.cur.fetchall()
+        variants = [item[0] for item in products]
+        return variants
+
+    def count_in_table(self, table_name):
+        self.cur.execute('select count(*) from %s' % table_name)
+        count = self.cur.fetchall()[0][0]
+        return count
