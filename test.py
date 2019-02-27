@@ -2,7 +2,7 @@ import UrlHelpers, Order, Database, sys, json
 
 def send_orders(url=None):
     db = Database.Database()
-    products = db.get_products(10)
+    products = db.get_products(1)
     print('Getting products....')
     sending_orders = []
     processed_orders = []
