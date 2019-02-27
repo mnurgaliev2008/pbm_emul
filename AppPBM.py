@@ -35,7 +35,7 @@ def process_order():
         print('Type answering data: ' + str(type(dict_ans_order)))
         ans = jsonify(dict_ans_order)
     elif msg_type == 'EP_PBM_Order_Cancel':
-        ans = jsonify({'orderID': order_id, 'trackingDescription': 'Order canсeled'})
+        ans = jsonify({'orderID': order_id, 'trackingDescription': 'Order canceled'})
     return ans
 
 
