@@ -11,7 +11,7 @@ def catch_all(path):
     print('tut')
     print( request.url)
     with open('AppMall.logs', 'w') as f:
-        f.write(request.url + ' ' + request.get_json(silent=True))
+        f.write('request_url:' + request.url + ' ' + 'request_data' + request.get_json(silent=True))
     return jsonify(Product.products)
 
 @app_mall.route('/api/pbm/v1/tracking', methods=['POST'])
