@@ -2,7 +2,7 @@ import requests, json
 from collections import OrderedDict
 #from Crypto.Hash import SHA256
 import Order
-import hashlib
+import hashlib, time
 
 pbm_client_secret = 'ITu2ReCVCBrOC2xG7ATvGRRfGolg16zZKCsxSBzB'
 PBM_ID = 'pbm'
@@ -20,6 +20,7 @@ def calc_checksum(request_type, full_url, platform_id, json_data=None):
 
 def send_events_to_partner(tracking_number, order_id, timeout=1000):
     for event in EVENTS:
+        time.sleep(1000)
         full_url = MALL_WMS_URL + '/tracking'
         json_data = Order.Order.create_event(event, tracking_number,order_id).replace(' ', '')
         checksum = calc_checksum('POST', full_url, PBM_ID, json_data)
