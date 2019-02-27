@@ -18,7 +18,7 @@ def calc_checksum(request_type, full_url, platform_id, json_data=None):
     hash = hashlib.new('SHA256',encoded_data).hexdigest()
     return hash
 
-def send_events_to_partner(tracking_number, order_id, timeout=60):
+def send_events_to_partner(tracking_number, order_id, timeout=1000):
     for event in EVENTS:
         full_url = MALL_WMS_URL + '/tracking'
         json_data = Order.Order.create_event(event, tracking_number,order_id).replace(' ', '')
