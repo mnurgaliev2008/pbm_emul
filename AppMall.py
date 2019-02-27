@@ -6,6 +6,14 @@ app_mall = Flask(__name__)
 MALL_URL='https://mall.my.com'
 events_track = {}
 
+@app_mall.route('/<path>', methods=['POST'])
+def catch_all(path):
+    print('tut')
+    print( request.url)
+
+    print(repr(path))
+    return path
+
 @app_mall.route('/api/pbm/v1/tracking', methods=['POST'])
 def tracking():
     msg_type = request.headers.get('msgType')
