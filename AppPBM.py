@@ -2,7 +2,7 @@
 import sys
 from flask import Flask,jsonify, request
 from concurrent.futures import ThreadPoolExecutor as executor
-import Order, UrlHelpers, json, Product
+import Order, UrlHelpers, json
 
 app_pbm = Flask(__name__)
 executor = executor(max_workers=3)
@@ -14,7 +14,7 @@ def catch_all(path):
     print('tut')
     print( request.url)
     print(repr(path))
-    return jsonify(Product.products)
+    return path
 
 
 

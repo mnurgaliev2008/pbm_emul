@@ -1,5 +1,5 @@
 from flask import Flask,jsonify, request
-import Order, UrlHelpers
+import Order, UrlHelpers, Product
 
 app_mall = Flask(__name__)
 
@@ -10,9 +10,9 @@ events_track = {}
 def catch_all(path):
     print('tut')
     print( request.url)
-
-    print(repr(path))
-    return path
+    with open('AppMall.logs', 'w') as f:
+        f.write(request.url + ' ' + request.get_json(silent=True))
+    return jsonify(Product.products)
 
 @app_mall.route('/api/pbm/v1/tracking', methods=['POST'])
 def tracking():
