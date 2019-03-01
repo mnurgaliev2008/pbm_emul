@@ -44,6 +44,6 @@ if __name__=='__main__':
         send_orders(sys.argv[1])
     else:
         order_id = send_orders(products)
-        send_cancel_order(order_id)
+        #send_cancel_order(order_id)
 
 

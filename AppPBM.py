@@ -31,7 +31,7 @@ def process_order():
         sku_num = data.get('parcel').get('goodsList').get('SKU')
         order = {'order_id': order_id, 'tracking_number': tracking_number, 'product_id': product_id, 'sku_num': sku_num}
         received_orders.append(order)
-        #executor.submit(UrlHelpers.send_events_to_partner, tracking_number, order_id)
+        executor.submit(UrlHelpers.send_events_to_partner, tracking_number, order_id)
         executor.submit(UrlHelpers.send_stock)
         dict_ans_order = Order.Order.answer_on_create_order(tracking_number)
         print('Type answering data: ' + str(type(dict_ans_order)))
