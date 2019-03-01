@@ -4,8 +4,9 @@ sending_orders = []
 processed_orders = []
 
 
-def send_orders(products, url=None):
+def send_orders(products, first_order, url=None):
     for product_id, sku_num in products:
+        Order.Order.num_order=first_order
         order = Order.Order(product_id,sku_num)
         order_data = order.data
         response = UrlHelpers.send_order_to_wms(order_data, url)
