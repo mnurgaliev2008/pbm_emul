@@ -42,7 +42,7 @@ if __name__=='__main__':
 
     print('Getting products....')
     if len(sys.argv) > 1:
-        send_orders(products, sys.argv[1])
+        send_orders(products, int(sys.argv[1]))
     else:
         order_id = send_orders(products)
         #send_cancel_order(order_id)
