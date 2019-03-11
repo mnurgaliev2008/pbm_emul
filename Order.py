@@ -4,6 +4,7 @@ import random, json, datetime
 countries=['RU']
 
 
+
 class Buyer(object):
     number=1
 
@@ -17,33 +18,47 @@ class Buyer(object):
 
 
 class Parcel(object):
+    price = 100
 
     def __init__(self, product_id, sku):
-        self.data = OrderedDict([('goodsList',OrderedDict([('productId', str(product_id)),('SKU', str(sku)),('quantity', 1),('price',100),('priceUnit', 'cent'),('priceCurrency', 'USD')]))])
+        self.data = OrderedDict([('goodsList',OrderedDict([('productId', str(product_id)),('SKU', str(sku)),('quantity', 1),('price',Parcel.price),('priceUnit', 'cent'),('priceCurrency', 'USD')]))])
+        Parcel.price += 1
+
+
+order_weight = {}
+order_price = {}
 
 
 class Order(object):
-    num_order=1
+
+    num_order = 1
+    weight = 1000
 
     def __init__(self, product_id,sku):
-        self.data = json.dumps(OrderedDict([('orderID', str(Order.num_order)),('buyer', Buyer().buyer_data),('parcel',Parcel(product_id,sku).data),('bizType',2),('packing',0)])).replace(' ', '')
+        parcel = Parcel(product_id,sku).data
+        self.data = json.dumps(OrderedDict([('orderID', str(Order.num_order)),('buyer', Buyer().buyer_data),('parcel', parcel),('bizType',2),('packing',0)])).replace(' ', '')
         self.id = Order.num_order
-        Order.num_order+=1
+        order_weight[self.id] = Order.weight
+        order_price[self.id] = parcel['goodsList']['price']
+        Order.weight += 10
+        Order.num_order += 1
+        print(order_weight)
+        print(order_price)
 
     def __str__(self):
         return self.data
 
-    @staticmethod
-    def answer_on_create_order(track_num):
-        return OrderedDict([('trackingNumber', track_num), ('trackingDescription', 'Order creation'), ('opTime', str(datetime.datetime.now().replace(microsecond=0))),('timeZone', '+03:00'), ('tariff', 150), ('tariffUnit','cent'),('tariffCurrency', 'USD')])
 
-    @staticmethod
-    def create_event(event, tracking_number,order_id):
-        event_info = {'trackingNumber' : tracking_number, 'trackingDescription' : '_'.join(event.split('_')[2:]), 'opTime': str(datetime.datetime.now().replace(microsecond=0)), 'timeZone': '+03:00', 'opLocation':'Riga'}
-        if event == 'PBM_EP_Order_Fulfilled':
-            external_filds = {'orderId': order_id, 'updateTariff': 155, 'updateTariffUnit':'cent', 'updateTariffCurrency': 'USD', 'updateWeight': 25, 'updateWeightUnit': 'g'}
-            event_info.update(external_filds)
-        return json.dumps(event_info)
+def answer_on_create_order(track_number):
+    return OrderedDict([('trackingNumber', track_number), ('trackingDescription', 'Order creation'), ('opTime', str(datetime.datetime.now().replace(microsecond=0))),('timeZone', '+03:00'), ('tariff', 150), ('tariffUnit','cent'),('tariffCurrency', 'USD')])
+
+
+def create_event(event, tracking_number, order_id):
+    event_info = {'trackingNumber' : tracking_number, 'trackingDescription' : '_'.join(event.split('_')[2:]), 'opTime': str(datetime.datetime.now().replace(microsecond=0)), 'timeZone': '+03:00', 'opLocation':'Riga'}
+    if event == 'PBM_EP_Order_Fulfilled':
+        external_filds = {'orderId': order_id, 'updateTariff': 155, 'updateTariffUnit':'cent', 'updateTariffCurrency': 'USD', 'updateWeight': order_weight[order_id], 'updateWeightUnit': 'g'}
+        event_info.update(external_filds)
+    return json.dumps(event_info)
 
 
 

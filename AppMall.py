@@ -6,6 +6,7 @@ app_mall = Flask(__name__)
 MALL_URL='https://mall.my.com'
 events_track = {}
 
+
 @app_mall.route('/<path>', methods=['POST'])
 def catch_all(path):
     print('tut')
@@ -13,6 +14,16 @@ def catch_all(path):
     with open('AppMall.logs', 'w') as f:
         f.write('request_url:' + request.url + ' ' + 'request_data' + request.get_json(silent=True))
     return jsonify(Product.products)
+
+
+@app_mall.route('/wms/api/v1/product/variation/', methods=['POST'])
+def update_weight_price():
+    variant_id = request.args.get('id')
+    json_data = request.get_json(silent=True)
+    weight = json_data['weight']
+    price = json_data['price']['amount']
+    print('Received data for variant_id: %s, price = %s, weight = %s' % (variant_id, price, weight))
+
 
 @app_mall.route('/api/pbm/v1/tracking', methods=['POST'])
 def tracking():

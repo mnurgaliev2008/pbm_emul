@@ -89,6 +89,7 @@ def send_stock():
 
 
 if __name__=='__main__':
+
     send_stock()
     send_cancel_order(1)
     send_events_to_partner('tr00001', 1)

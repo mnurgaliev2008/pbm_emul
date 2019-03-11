@@ -1,5 +1,6 @@
 import pymysql
 
+
 class Database(object):
 
     conn = None

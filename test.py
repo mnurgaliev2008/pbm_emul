@@ -36,6 +36,7 @@ def send_cancel_order(order_id):
 
 
 if __name__=='__main__':
+
     db = Database.Database()
     products = db.get_products(1)
     #products=(('1711aac6-9474-4bba-b0ba-896ecd0ea719','197738988' ),)
@@ -44,7 +45,8 @@ if __name__=='__main__':
     if len(sys.argv) > 1:
         send_orders(products, int(sys.argv[1]))
     else:
-        order_id = send_orders(products)
+        for i in range(10):
+            order_id = send_orders(products)
         #send_cancel_order(order_id)
 
 
