@@ -38,6 +38,8 @@ class Database(object):
         return count
 
     def get_next_order_id(self):
+        print(self.cur.fetchall())
+        print(2)
         self.cur.execute('select platform_order_id FROM `order` ORDER BY id desc limit 1')
         cur_order = self.cur.fetchall()[0][0]
         print('Current order= %s' % cur_order)
