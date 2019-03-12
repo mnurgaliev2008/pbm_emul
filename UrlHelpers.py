@@ -21,10 +21,10 @@ def calc_checksum(request_type, full_url, platform_id, json_data=None):
 def send_events_to_partner(tracking_number, order_id):
     for event in EVENTS:
         full_url = MALL_WMS_URL + '/tracking'
-        print('sending events %s for order %s: %s' % (event, order_id, full_url))
+        json_data = Order.create_event(event, tracking_number,order_id).replace(' ', '')
+        print('sending events %s for order %s: %s {%s}' % (event, order_id, full_url, json_data))
         time.sleep(1)
 
-        json_data = Order.create_event(event, tracking_number,order_id).replace(' ', '')
         checksum = calc_checksum('POST', full_url, PBM_ID, json_data)
         headers = {'Content-Type': 'application/json', 'pbmId': PBM_ID, 'checksum': checksum,
                    'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': event}
