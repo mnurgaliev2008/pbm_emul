@@ -11,6 +11,7 @@ class Database(object):
         return cls.instance
 
     def __init__(self):
+        self.cur = None
         if Database.conn is None:
             self.__connect_to_db()
 
@@ -38,13 +39,15 @@ class Database(object):
         return count
 
     def get_next_order_id(self):
-        print(self.cur.fetchall())
-        print(2)
+
+        self.cur = Database.conn.cursor()
         self.cur.execute('select platform_order_id FROM `order` ORDER BY id desc limit 1')
         cur_order = self.cur.fetchall()[0][0]
         print('Current order= %s' % cur_order)
         next_order =int(cur_order) + 1
         print('nex_order_id: %s' % next_order)
+        self.cur.close()
+        self.cur = None
         return next_order
 
 
