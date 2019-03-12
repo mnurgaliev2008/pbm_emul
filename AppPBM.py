@@ -29,7 +29,7 @@ def process_order():
         print('Creating oder')
         product_id = data.get('parcel').get('goodsList').get('productId')
         sku_num = data.get('parcel').get('goodsList').get('SKU')
-        dict_ans_order = Order.Order.answer_on_create_order(tracking_number)
+        dict_ans_order = Order.answer_on_create_order(tracking_number)
         order = {'order_id': order_id, 'tracking_number': tracking_number, 'product_id': product_id, 'sku_num': sku_num}
         received_orders.append(order)
         executor.submit(UrlHelpers.send_events_to_partner, tracking_number, order_id)
