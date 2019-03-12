@@ -43,7 +43,7 @@ if __name__=='__main__':
     #products=(('1711aac6-9474-4bba-b0ba-896ecd0ea719','197738988' ),)
 
     print('Getting products....')
-    for i in range(sys.argv[1]):
+    for i in range(int(sys.argv[1])):
         next_order = db.get_next_order_id()
         print('Sending %s order' % next_order)
         send_orders(products, next_order)
