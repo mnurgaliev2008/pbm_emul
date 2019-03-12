@@ -38,5 +38,5 @@ class Database(object):
         return count
 
     def get_next_order_id(self):
-        self.cur.execute('select platform_order_id FROM order ORDER BY id desc')
+        self.cur.execute('select platform_order_id FROM `order` ORDER BY id desc')
         return int(self.cur.fetchall()[0][0]) + 1
