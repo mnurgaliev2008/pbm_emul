@@ -36,3 +36,7 @@ class Database(object):
         self.cur.execute('select count(*) from %s' % table_name)
         count = self.cur.fetchall()[0][0]
         return count
+
+    def get_next_order_id(self):
+        self.cur.execute('select max(platform_order_id) from order')
+        return int(self.cur.fetchall()[0][0]) + 1
