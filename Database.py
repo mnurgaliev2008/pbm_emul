@@ -19,7 +19,7 @@ class Database(object):
         self.cur = Database.conn.cursor()
 
     def get_products(self, count):
-        self.cur.execute('SELECT product_id, sku_num FROM sku LIMIT %s' % count)
+        self.cur.execute('SELECT product_id, sku_num FROM sku inner join sku_warehouse on sku.id = sku_warehouse.variant_id where sku_warehouse.stock>0 LIMIT %s' % count)
         products=self.cur.fetchall()
         return products
 
