@@ -44,6 +44,7 @@ def answer_on_create_order(track_number):
 def create_event(event, tracking_number, order_id):
     print('Create event for order %s' % order_id)
     with open('Orders.txt', 'r') as f:
+        print('cdscsdjkjkl')
         data = json.loads(f.read())
         print('Orders.txt: %s' % data)
     event_info = {'trackingNumber' : tracking_number, 'trackingDescription' : '_'.join(event.split('_')[2:]), 'opTime': str(datetime.datetime.now().replace(microsecond=0)), 'timeZone': '+03:00', 'opLocation':'Riga'}
