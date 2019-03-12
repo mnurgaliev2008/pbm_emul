@@ -39,6 +39,7 @@ class Database(object):
 
     def get_next_order_id(self):
         self.cur.execute('select platform_order_id FROM `order` ORDER BY id desc limit 1')
+        print(self.cur.fetchall())
         cur_order = self.cur.fetchall()[0][0]
         print('Current order= %s' % cur_order)
         return int(cur_order) + 1
