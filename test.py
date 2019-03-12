@@ -45,13 +45,11 @@ def send_cancel_order(order_id):
         print(str(response.status_code) + response.text)
 
 
-
 if __name__=='__main__':
-    products=(('1711aac6-9474-4bba-b0ba-896ecd0ea719','197738988' ),)
-    os.remove('Orders.txt')
-    Order.Order.num_order=400
-    for i in range(10):
-        send_orders(products,id)
+    try:
+        os.remove('Orders.txt')
+    except OSError:
+        pass
     db = Database.Database()
     products = db.get_products(1)
     #products=(('1711aac6-9474-4bba-b0ba-896ecd0ea719','197738988' ),)
