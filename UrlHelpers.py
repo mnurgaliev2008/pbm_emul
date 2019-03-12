@@ -19,7 +19,9 @@ def calc_checksum(request_type, full_url, platform_id, json_data=None):
     return hash
 
 def send_events_to_partner(tracking_number, order_id, timeout=1000):
+    print(1)
     for event in EVENTS:
+        print(2)
         print('sending events %s for order %s' % (event, order_id))
         time.sleep(1)
         full_url = MALL_WMS_URL + '/tracking'
