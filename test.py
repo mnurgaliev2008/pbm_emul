@@ -44,9 +44,12 @@ if __name__=='__main__':
 
     print('Getting products....')
     if len(sys.argv) > 1:
-        send_orders(products, int(sys.argv[1]))
+        for i in range(10):
+            print('Sending %s order' % i)
+            send_orders(products, int(sys.argv[1]))
     else:
         for i in range(10):
+            print('Sending %s order' % i)
             order_id = send_orders(products)
         #send_cancel_order(order_id)
 
