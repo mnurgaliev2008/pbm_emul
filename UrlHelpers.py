@@ -20,6 +20,7 @@ def calc_checksum(request_type, full_url, platform_id, json_data=None):
 
 def send_events_to_partner(tracking_number, order_id, timeout=1000):
     for event in EVENTS:
+        print('sending events %s for order %s' % (event, order_id))
         time.sleep(1)
         full_url = MALL_WMS_URL + '/tracking'
         json_data = Order.Order.create_event(event, tracking_number,order_id).replace(' ', '')
