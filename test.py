@@ -11,8 +11,9 @@ def send_orders(products, first_order, url=None):
         order_data = order.data
         response = UrlHelpers.send_order_to_wms(order_data, url)
         print('status_code: ' + str(response.status_code))
+        data = response.json()
+
         if response.status_code == 200:
-            data = response.json()
             print(data)
             sending_orders.append(order)
         try:
