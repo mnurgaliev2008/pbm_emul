@@ -12,10 +12,8 @@ EVENTS=['PBM_EP_Order_Fulfilled', 'PBM_EP_Warehouse_Departure', 'PBM_EP_Post_Arr
 
 def calc_checksum(request_type, full_url, platform_id, json_data=None):
     data_for_checksum = full_url + request_type + platform_id + pbm_client_secret + json_data
-    print(data_for_checksum+'\n')
     encoded_data = data_for_checksum.encode('utf-8')
     hash = hashlib.new('SHA256',encoded_data).hexdigest()
-    print(hash)
     return hash
 
 
@@ -24,9 +22,7 @@ def send_events_to_partner(tracking_number, order_id):
     for event in EVENTS:
         full_url = MALL_WMS_URL + '/tracking'
         json_data = Order.create_event(event, tracking_number,order_id).replace(' ', '')
-        print(json_data)
-
-        print('sending events %s for order %s: %s {%s}' % (event, order_id, full_url, json_data))
+        print('sending events %s for order %s:' % (event, order_id))
         time.sleep(1)
 
         checksum = calc_checksum('POST', full_url, PBM_ID, json_data)

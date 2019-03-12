@@ -7,7 +7,7 @@ processed_orders = []
 def send_orders(products, order_id, url=None):
     for product_id, sku_num in products:
         order = Order.Order(product_id,sku_num, order_id)
-        weight_price = {'weight': order.weight, 'price': order.price}
+        weight_price = {'sku_num': sku_num, 'weight': order.weight, 'price': order.price}
         data ={}
         try:
             file = open('Orders.txt', 'r')
