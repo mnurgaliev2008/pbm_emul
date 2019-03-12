@@ -47,10 +47,8 @@ if __name__=='__main__':
     for i in range(int(sys.argv[1])):
         print('Sending %s order' % next_order)
         send_orders(products, next_order)
-        cur_order = next_order
-        while next_order == cur_order:
-            time.sleep(3)
-            next_order = db.get_next_order_id()
+        time.sleep(10)
+        next_order+=1
 
 
 
