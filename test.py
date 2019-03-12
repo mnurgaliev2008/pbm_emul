@@ -59,7 +59,7 @@ if __name__=='__main__':
     for i in range(int(sys.argv[1])):
         print('Sending %s order' % next_order)
         send_orders(products, next_order)
-        time.sleep(10)
+        time.sleep(0.5)
         next_order+=1
 
 
