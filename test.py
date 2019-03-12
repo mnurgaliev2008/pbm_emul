@@ -43,11 +43,17 @@ if __name__=='__main__':
     #products=(('1711aac6-9474-4bba-b0ba-896ecd0ea719','197738988' ),)
 
     print('Getting products....')
+    next_order = db.get_next_order_id()
     for i in range(int(sys.argv[1])):
-        time.sleep(3)
-        next_order = db.get_next_order_id()
         print('Sending %s order' % next_order)
         send_orders(products, next_order)
+        cur_order = next_order
+        while next_order == cur_order:
+            time.sleep(3)
+            next_order = db.get_next_order_id()
+
+
+
     #send_cancel_order(order_id)
 
 
