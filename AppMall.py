@@ -23,6 +23,8 @@ def update_weight_price():
     weight = json_data['weight']
     price = json_data['price']['amount']
     print('Received data for variant_id: %s, price = %s, weight = %s' % (variant_id, price, weight))
+    with open('AppMall.log', 'w') as f:
+        f.write('Received data for variant_id: %s, price = %s, weight = %s' % (variant_id, price, weight))
 
 
 @app_mall.route('/api/pbm/v1/tracking', methods=['POST'])
