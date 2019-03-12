@@ -44,7 +44,7 @@ if __name__=='__main__':
 
     print('Getting products....')
     if len(sys.argv) > 1:
-        for i in range(10):
+        for i in range(1):
             print('Sending %s order' % i)
             next_order = db.get_next_order_id()
             send_orders(products, int(sys.argv[1]))
