@@ -18,10 +18,8 @@ def calc_checksum(request_type, full_url, platform_id, json_data=None):
     print(hash)
     return hash
 
-def send_events_to_partner(tracking_number, order_id, timeout=1000):
-    print(1)
+def send_events_to_partner(tracking_number, order_id):
     for event in EVENTS:
-        print(2)
         print('sending events %s for order %s' % (event, order_id))
         time.sleep(1)
         full_url = MALL_WMS_URL + '/tracking'
@@ -29,7 +27,7 @@ def send_events_to_partner(tracking_number, order_id, timeout=1000):
         checksum = calc_checksum('POST', full_url, PBM_ID, json_data)
         headers = {'Content-Type': 'application/json', 'pbmId': PBM_ID, 'checksum': checksum,
                    'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': event}
-        response = requests.post(full_url, headers=headers, data=json_data, timeout=timeout)
+        response = requests.post(full_url, headers=headers, data=json_data)
         if response.status_code == 200:
             print(event + 'with trackingNumber %s was sent successfully' % tracking_number)
 
