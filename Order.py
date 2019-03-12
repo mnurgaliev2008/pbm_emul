@@ -18,32 +18,20 @@ class Buyer(object):
 
 
 class Parcel(object):
-    price = 100
 
     def __init__(self, product_id, sku):
-        self.data = OrderedDict([('goodsList',OrderedDict([('productId', str(product_id)),('SKU', str(sku)),('quantity', 1),('price',Parcel.price),('priceUnit', 'cent'),('priceCurrency', 'USD')]))])
-        Parcel.price += 1
-
-
-order_weight = {}
-order_price = {}
+        self.price = random.randint(500,550)
+        self.data = OrderedDict([('goodsList',OrderedDict([('productId', str(product_id)),('SKU', str(sku)),('quantity', 1),('price',self.price),('priceUnit', 'cent'),('priceCurrency', 'USD')]))])
 
 
 class Order(object):
 
-    num_order = 1
-    weight = 1000
-
-    def __init__(self, product_id,sku):
-        parcel = Parcel(product_id,sku).data
-        self.data = json.dumps(OrderedDict([('orderID', str(Order.num_order)),('buyer', Buyer().buyer_data),('parcel', parcel),('bizType',2),('packing',0)])).replace(' ', '')
-        self.id = Order.num_order
-        order_weight[self.id] = Order.weight
-        order_price[self.id] = parcel['goodsList']['price']
-        Order.weight += 10
-        Order.num_order += 1
-        print(order_weight)
-        print(order_price)
+    def __init__(self, product_id,sku, order_id):
+        parcel = Parcel(product_id,sku)
+        self.data = json.dumps(OrderedDict([('orderID', str(order_id)),('buyer', Buyer().buyer_data),('parcel', parcel.data),('bizType',2),('packing',0)])).replace(' ', '')
+        self.id = order_id
+        self.weight = random.randint(100,120)
+        self.price = parcel.price
 
     def __str__(self):
         return self.data
@@ -54,9 +42,11 @@ def answer_on_create_order(track_number):
 
 
 def create_event(event, tracking_number, order_id):
+    with open('Orders.txt', 'r') as f:
+        data = json.loads(f.read())
     event_info = {'trackingNumber' : tracking_number, 'trackingDescription' : '_'.join(event.split('_')[2:]), 'opTime': str(datetime.datetime.now().replace(microsecond=0)), 'timeZone': '+03:00', 'opLocation':'Riga'}
     if event == 'PBM_EP_Order_Fulfilled':
-        external_filds = {'orderId': order_id, 'updateTariff': 155, 'updateTariffUnit':'cent', 'updateTariffCurrency': 'USD', 'updateWeight': order_weight[order_id], 'updateWeightUnit': 'g'}
+        external_filds = {'orderId': order_id, 'updateTariff': 155, 'updateTariffUnit':'cent', 'updateTariffCurrency': 'USD', 'updateWeight': data[str(order_id)]['weight'], 'updateWeightUnit': 'g'}
         event_info.update(external_filds)
     return json.dumps(event_info)
 

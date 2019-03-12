@@ -1,15 +1,25 @@
-import UrlHelpers, Order, Database, sys, time
+import UrlHelpers, Order, Database, sys, time, json, os
 
 sending_orders = []
 processed_orders = []
 
 
-def send_orders(products, first_order, url=None):
+def send_orders(products, order_id, url=None):
     for product_id, sku_num in products:
-        Order.Order.num_order=first_order
-        order = Order.Order(product_id,sku_num)
-        order_data = order.data
-        response = UrlHelpers.send_order_to_wms(order_data, url)
+        order = Order.Order(product_id,sku_num, order_id)
+        weight_price = {'weight': order.weight, 'price': order.price}
+        data ={}
+        try:
+            file = open('Orders.txt', 'r')
+            data = json.loads(file.read())
+            file.close()
+        except IOError:
+            pass
+        file = open('Orders.txt', 'w')
+
+        data[order.id] = weight_price
+        file.write(json.dumps(data))
+        response = UrlHelpers.send_order_to_wms(order, url)
         print('status_code: ' + str(response.status_code))
         data = response.json()
 
@@ -22,7 +32,7 @@ def send_orders(products, first_order, url=None):
         except Exception as e:
             print(data)
             print(e)
-
+    file.close()
     print('All orders sent: %s' % len(sending_orders))
     print('Number processed orders : %s' % len(processed_orders))
     return order.id
@@ -37,7 +47,11 @@ def send_cancel_order(order_id):
 
 
 if __name__=='__main__':
-
+    products=(('1711aac6-9474-4bba-b0ba-896ecd0ea719','197738988' ),)
+    os.remove('Orders.txt')
+    Order.Order.num_order=400
+    for i in range(10):
+        send_orders(products,id)
     db = Database.Database()
     products = db.get_products(1)
     #products=(('1711aac6-9474-4bba-b0ba-896ecd0ea719','197738988' ),)

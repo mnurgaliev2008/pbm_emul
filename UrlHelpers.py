@@ -24,7 +24,7 @@ def send_events_to_partner(tracking_number, order_id):
         full_url = MALL_WMS_URL + '/tracking'
         json_data = Order.create_event(event, tracking_number,order_id).replace(' ', '')
         print(json_data)
-        
+
         print('sending events %s for order %s: %s {%s}' % (event, order_id, full_url, json_data))
         time.sleep(1)
 
@@ -36,15 +36,16 @@ def send_events_to_partner(tracking_number, order_id):
             print(event + 'with trackingNumber %s was sent successfully' % tracking_number)
 
 def send_order_to_wms(order, url):
+
     if url is None:
         print('Sending orders to WMS_URL: %s' % MALL_WMS_URL)
         checksum = calc_checksum('POST', MALL_WMS_URL, MALL_ID, order)
         headers = {'Content-Type': 'application/json', 'platformID': MALL_ID, 'checksum': checksum,
                        'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': 'EP_PBM_Order_Creation'}
-        response = requests.post(MALL_WMS_URL, data=order, headers=headers)
+        response = requests.post(MALL_WMS_URL, data=order.data, headers=headers)
         return response
     else:
-        response = requests.post(url + '/api/pbm/v1', data=order, headers={'Content-Type': 'application/json', 'platformID': MALL_ID, 'checksum': 'checksum',
+        response = requests.post(url + '/api/pbm/v1', data=order.data, headers={'Content-Type': 'application/json', 'platformID': MALL_ID, 'checksum': 'checksum',
                        'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': 'EP_PBM_Order_Creation'})
         return response
 
