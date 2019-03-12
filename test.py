@@ -43,15 +43,10 @@ if __name__=='__main__':
     #products=(('1711aac6-9474-4bba-b0ba-896ecd0ea719','197738988' ),)
 
     print('Getting products....')
-    if len(sys.argv) > 1:
-        for i in range(1):
-            print('Sending %s order' % i)
-            next_order = db.get_next_order_id()
-            send_orders(products, int(sys.argv[1]))
-    else:
-        for i in range(10):
-            print('Sending %s order' % i)
-            order_id = send_orders(products)
-        #send_cancel_order(order_id)
+    for i in range(1):
+        print('Sending %s order' % i)
+        next_order = db.get_next_order_id()
+        send_orders(products, next_order)
+    #send_cancel_order(order_id)
 
 
