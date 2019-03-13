@@ -8,8 +8,7 @@ events_track = {}
 
 
 
-@app_mall.route('/', defaults={'u_path': ''})
-@app_mall.route('/<path:u_path>')
+@app_mall.route('/', defaults={'u_path': ''}, methods=['POST'])
 def catch_all(u_path):
     print('tut')
     print( request.url)
