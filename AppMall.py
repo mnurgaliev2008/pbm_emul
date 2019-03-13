@@ -1,4 +1,4 @@
-from flask import Flask,jsonify, request
+from flask import Flask,jsonify, request, json
 import Order, UrlHelpers, Product
 
 app_mall = Flask(__name__)
@@ -11,8 +11,9 @@ events_track = {}
 def catch_all():
     print('tut')
     print( request.url)
+    print(json.loads(request.get_json(silent=True)))
     with open('AppMall.logs', 'w') as f:
-        f.write('request_url:' + request.url + ' ' + 'request_data' + request.get_json(silent=True))
+        f.write('request_url:' + request.url + ' ' + 'request_data' + json.loads(request.get_json(silent=True)))
     return jsonify(Product.products)
 
 
