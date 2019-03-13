@@ -16,7 +16,7 @@ def catch_all(path):
     return jsonify(Product.products)
 
 
-@app_mall.route('/wms/api/v1/product/variation/', methods=['POST'])
+@app_mall.route('/wms/api/v1/product/variation/<id>', methods=['POST', 'GET'])
 def update_weight_price():
     variant_id = request.args.get('id')
     json_data = request.get_json(silent=True)
