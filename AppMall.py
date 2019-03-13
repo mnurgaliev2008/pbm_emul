@@ -9,10 +9,10 @@ events_track = {}
 
 
 @app_mall.route('/', methods=['POST'])
-def catch_all(u_path):
+def catch_all():
     print('tut')
     print( request.url)
-    print(u_path)
+    #print(u_path)
     print(json.dumps(request.get_json(silent=True)))
     with open('AppMall.logs', 'w') as f:
         f.write('request_url:' + request.url + ' ' + 'request_data' + json.dumps(request.get_json(silent=True)))
