@@ -11,9 +11,9 @@ events_track = {}
 def catch_all():
     print('tut')
     print( request.url)
-    print(json.loads(request.get_json(silent=True)))
+    print(json.dumps(request.get_json(silent=True)))
     with open('AppMall.logs', 'w') as f:
-        f.write('request_url:' + request.url + ' ' + 'request_data' + json.loads(request.get_json(silent=True)))
+        f.write('request_url:' + request.url + ' ' + 'request_data' + json.dumps(request.get_json(silent=True)))
     return jsonify(Product.products)
 
 
