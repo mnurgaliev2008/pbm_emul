@@ -57,39 +57,40 @@ def send_cancel_order(order_id):
     return response
 
 def send_stock():
-    while True:
-        time.sleep(6000)
-        db = Database.Database()
-        variants = db.get_variants()
-        print('Number variants to sent = %s' % len(variants))
 
-        #variants = [i for i in range(140)]
-        #variants = ['00010ad2-79e8-4687-abc8-e4bad160c273']
-        number = 0
-        while len(variants) >0:
-            good_list = []
-            if len(variants) >= 50:
-                variants_for_send = variants[:50]
-                variants = variants[50:]
-                number+=50
-            else:
-                variants_for_send = variants
-                variants = []
-                number+=len(variants_for_send)
-            for var in variants_for_send:
-                dict_var = {'variantId': str(var), 'quantity': 100}
-                good_list.append(dict_var)
-            stock_dict = {'goodsList': good_list}
-            stock_data = json.dumps(stock_dict).replace(' ', '')
-            print('Sending stock: %s' % stock_data)
-            full_url = MALL_WMS_URL + '/stock'
-            checksum = calc_checksum('POST', full_url, MALL_ID, stock_data)
+    #time.sleep(6000)
+    #db = Database.Database()
+    #variants = db.get_variants()
+    #print('Number variants to sent = %s' % len(variants))
 
-            headers = {'Content-Type': 'application/json', 'platformID': MALL_ID, 'checksum': checksum,
-                           'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': 'PBM_EP_Stocks_Status'}
-            response = requests.post(full_url, data=stock_data, headers=headers)
-            if response.status_code == 200:
-                print('Stock for %s variants are sent' % number)
+    #variants = [i for i in range(140)]
+    variants = [('e16c4a79-79e2-46ea-a0d0-9cfb863d110a', 'DNNC0001ZZ0CZ001')]
+    number = 0
+    while len(variants) >0:
+        good_list = []
+        if len(variants) >= 50:
+            variants_for_send = variants[:50]
+            variants = variants[50:]
+            number+=50
+        else:
+            variants_for_send = variants
+            variants = []
+            number+=len(variants_for_send)
+        for productId, SKU in variants_for_send:
+            dict_var = {'productId': str(productId), 'SKU': str(SKU), 'quantity': 100}
+            good_list.append(dict_var)
+        stock_dict = {'goodsList': good_list}
+        stock_data = json.dumps(stock_dict).replace(' ', '')
+        print('Sending stock: %s' % stock_data)
+        full_url = MALL_WMS_URL + '/stock'
+        checksum = calc_checksum('POST', full_url, MALL_ID, stock_data)
+
+        headers = {'Content-Type': 'application/json', 'platformID': MALL_ID, 'checksum': checksum,
+                       'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': 'PBM_EP_Stocks_Status'}
+        response = requests.post(full_url, data=stock_data, headers=headers)
+        if response.status_code == 200:
+            print('Stock for %s variants are sent' % number)
+            break
 
 
 if __name__=='__main__':

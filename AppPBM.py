@@ -27,11 +27,16 @@ def process_order():
     msg_type = request.headers.get('msgType')
     if msg_type == 'EP_PBM_Order_Creation':
         print('Creating oder')
-        product_id = data.get('parcel').get('goodsList').get('productId')
-        sku_num = data.get('parcel').get('goodsList').get('SKU')
-        dict_ans_order = Order.answer_on_create_order(tracking_number)
-        order = {'order_id': order_id, 'tracking_number': tracking_number, 'product_id': product_id, 'sku_num': sku_num}
+        goods_list = data.get('parcel').get('goodsList')
+        if type(goods_list) == 'list':
+            products = [(item.get('SKU'), item.get('productId')) for item in goods_list]
+            order = {'order_id': order_id, 'tracking_number': tracking_number, 'products': products}
+        else:
+            sku_num = goods_list.get('SKU')
+            product_id = goods_list.get('productId')
+            order = {'order_id': order_id, 'tracking_number': tracking_number, 'product_id': product_id, 'sku_num': sku_num}
         received_orders.append(order)
+        dict_ans_order = Order.answer_on_create_order(tracking_number)
         executor.submit(UrlHelpers.send_events_to_partner, tracking_number, order_id)
         #executor.submit(UrlHelpers.send_stock)
         print('Type answering data: ' + str(type(dict_ans_order)))
