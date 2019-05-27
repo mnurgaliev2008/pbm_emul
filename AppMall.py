@@ -16,7 +16,7 @@ def catch_all():
     print(json.dumps(request.get_json(silent=True)))
     with open('AppMall.logs', 'w') as f:
         f.write('request_url:' + request.url + ' ' + 'request_data' + json.dumps(request.get_json(silent=True)))
-    return jsonify(Product.products)
+    return jsonify({})
 
 
 @app_mall.route('/wms/api/v1/product/variation/<id>', methods=['POST', 'GET'])

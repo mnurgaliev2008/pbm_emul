@@ -19,7 +19,7 @@ def calc_checksum(request_type, full_url, platform_id, json_data=None):
 
 
 def send_events_to_partner(tracking_number, order_id):
-    time.sleep(30)
+    #time.sleep(30)
     for event in EVENTS:
         full_url = MALL_WMS_URL + '/tracking'
         json_data = Order.create_event(event, tracking_number,order_id).replace(' ', '')
@@ -31,6 +31,7 @@ def send_events_to_partner(tracking_number, order_id):
                    'msgId': '550e8400-e29b-41d4-a716-446655440000', 'msgType': event}
         response = requests.post(full_url, headers=headers, data=json_data)
         if response.status_code == 200:
+            print(response.text)
             print(event + 'with trackingNumber %s was sent successfully' % tracking_number)
 
 def send_order_to_wms(order, url):
@@ -95,6 +96,6 @@ def send_stock():
 
 if __name__=='__main__':
 
-    send_stock()
-    send_cancel_order(1)
-    send_events_to_partner('tr00001', 1)
+    #send_stock()
+    #send_cancel_order(1)
+    send_events_to_partner('trextorderid0000000001', 'extorderid0000000001')

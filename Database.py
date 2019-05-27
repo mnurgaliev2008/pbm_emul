@@ -46,6 +46,17 @@ class Database(object):
         print('nex_order_id: %s' % next_order)
         return next_order
 
+    def get_sku_weight(self, sku_num):
+        self.cur.execute('select weight_net from `sku` where sku_num={0}'.format(sku_num))
+        weight = int(self.cur.fetchone()[0])
+        print('SKU {0} is weight = {1}'.format(sku_num,weight))
+        return weight
+
+    def get_order_weight(self, ext_order_id):
+        self.cur.execute('select shp_weight from `order` where external_order_id={0}'.format(ext_order_id) )
+        weight = int(self.cur.fetchone()[0])
+        print('ext_order_id {0} is weight = {1}'.format(ext_order_id,weight))
+        return weight
 
 if __name__=='__main__':
     db = Database()
