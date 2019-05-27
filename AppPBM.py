@@ -29,9 +29,11 @@ def process_order():
         print('Creating oder')
         goods_list = data.get('parcel').get('goodsList')
         if type(goods_list) == 'list':
+            print('goods_list->list')
             products = [(item.get('SKU'), item.get('productId')) for item in goods_list]
             order = {'order_id': order_id, 'tracking_number': tracking_number, 'products': products}
         else:
+            print('goods_list->NOT list')
             sku_num = goods_list.get('SKU')
             product_id = goods_list.get('productId')
             order = {'order_id': order_id, 'tracking_number': tracking_number, 'product_id': product_id, 'sku_num': sku_num}
