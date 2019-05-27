@@ -28,7 +28,7 @@ def process_order():
     if msg_type == 'EP_PBM_Order_Creation':
         print('Creating oder')
         goods_list = data.get('parcel').get('goodsList')
-        if type(goods_list) == 'list':
+        if type(goods_list) == list:
             print('goods_list->list')
             products = [(item.get('SKU'), item.get('productId')) for item in goods_list]
             order = {'order_id': order_id, 'tracking_number': tracking_number, 'products': products}
